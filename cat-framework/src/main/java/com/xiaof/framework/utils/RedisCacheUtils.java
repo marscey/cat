@@ -1,8 +1,11 @@
 package com.xiaof.framework.utils;
 
 import com.xiaof.framework.config.ApplicationContextProvider;
+import com.xiaof.framework.config.RedisConfig;
+import com.xiaof.framework.model.RedisCache;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.cache.Cache;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.core.RedisCallback;
@@ -28,6 +31,9 @@ public class RedisCacheUtils implements Cache {
     private RedisTemplate<String, Object> redisTemplate;
     private static final long EXPIRE_TIME_IN_MINUTES = 30; // redis过期时间
 
+    //默认不开启缓存
+    private boolean isCache = false;
+
     /**
      * 自己实现的二级缓存，必须要有一个带id的构造函数，否则会报错。
      *
@@ -45,6 +51,11 @@ public class RedisCacheUtils implements Cache {
         if (id == null) {
             throw new IllegalArgumentException("Cache instances require an ID");
         }
+        //是否开启缓存
+        EnableCaching enableCaching = RedisConfig.class.getAnnotation(EnableCaching.class);
+        if(enableCaching != null){
+            this.isCache = true;
+        }
         this.id = id;
     }
     @Override
@@ -60,6 +71,7 @@ public class RedisCacheUtils implements Cache {
     @Override
     @SuppressWarnings("unchecked")
     public void putObject(Object key, Object value) {
+        if (!isCache)return;
         RedisTemplate redisTemplate = getRedisTemplate();
         ValueOperations opsForValue = redisTemplate.opsForValue();
         opsForValue.set(key, value, EXPIRE_TIME_IN_MINUTES, TimeUnit.MINUTES);
@@ -73,6 +85,7 @@ public class RedisCacheUtils implements Cache {
      */
     @Override
     public Object getObject(Object key) {
+        if (!isCache)return null;
         RedisTemplate redisTemplate = getRedisTemplate();
         ValueOperations opsForValue = redisTemplate.opsForValue();
         log.debug("Get cached query result from redis");
@@ -87,6 +100,7 @@ public class RedisCacheUtils implements Cache {
     @Override
     @SuppressWarnings("unchecked")
     public Object removeObject(Object key) {
+        if (!isCache)return null;
         RedisTemplate redisTemplate = getRedisTemplate();
         redisTemplate.delete(key);
         log.debug("Remove cached query result from redis");
@@ -97,6 +111,7 @@ public class RedisCacheUtils implements Cache {
      */
     @Override
     public void clear() {
+        if (!isCache)return;
         RedisTemplate redisTemplate = getRedisTemplate();
         redisTemplate.execute((RedisCallback) connection -> {
             connection.flushDb();
@@ -115,8 +130,8 @@ public class RedisCacheUtils implements Cache {
     private RedisTemplate getRedisTemplate() {
         if (redisTemplate == null) {
             /**
-             * 不能通过autowire的方式引用redisTemplate，因为RedisCache并不是Spring容器里的bean
-             *
+             * 不能通过autowire的方式引用redisTemplate
+             * RedisCache并不是Spring容器里的bean
              */
             redisTemplate = ApplicationContextProvider.getBean("redisTemplate", RedisTemplate.class);
         }
@@ -129,6 +144,7 @@ public class RedisCacheUtils implements Cache {
      * @param expire
      */
     public void expire(final String key, long expire) {
+        if (!isCache)return;
         redisTemplate.expire(key, expire, TimeUnit.SECONDS);
     }
 
@@ -139,6 +155,7 @@ public class RedisCacheUtils implements Cache {
      * @param value
      */
     public void lpush(final String key, String value) {
+        if (!isCache)return;
         redisTemplate.execute(new RedisCallback<Long>() {
             @Override
             public Long doInRedis(RedisConnection connection) throws DataAccessException {
@@ -156,6 +173,7 @@ public class RedisCacheUtils implements Cache {
      * @return
      */
     public Object lpop(final String key) {
+        if (!isCache)return null;
         String result = redisTemplate.execute(new RedisCallback<String>() {
             @Override
             public String doInRedis(RedisConnection connection) throws DataAccessException {
@@ -174,6 +192,7 @@ public class RedisCacheUtils implements Cache {
      * @return
      */
     public Object rpop(String key) {
+        if (!isCache)return null;
         String result = redisTemplate.execute(new RedisCallback<String>() {
             @Override
             public String doInRedis(RedisConnection connection) throws DataAccessException {
@@ -192,6 +211,7 @@ public class RedisCacheUtils implements Cache {
      * @return
      */
     public Long llen(String key) {
+        if (!isCache)return null;
         Long result = redisTemplate.execute(new RedisCallback<Long>() {
             @Override
             public Long doInRedis(RedisConnection connection) throws DataAccessException {
