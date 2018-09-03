@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<!--根节点-->
+<generatorConfiguration>
+    <!--这里记录了数据库连接-->
+    <properties resource="generator.properties"/>
+
+    <!-- 必须 指定生成一组对象的环境 -->
+    <context id="DB2Tables" targetRuntime="MyBatis3">
+
+        <!-- 生成的Java文件的编码 -->
+        <property name="javaFileEncoding" value="UTF-8"/>
+
+        <!--分隔符-->
+        <property name="autoDelimitKeywords" value="true"/>
+        <property name="beginningDelimit" value="`"/>
+        <property name="endingDelimit" value="`"/>
+
+        <!--注释 -->
+        <commentGenerator>
+            <!--是否去掉注释 true 是-->
+            <property name="suppressAllComments" value="true"/>
+            <property name="suppressDate" value="true"/>
+        </commentGenerator>
+
+        <!--数据库链接地址账号密码-->
+        <jdbcConnection driverClass="${driverClassName}"
+                        connectionURL="${url}"
+                        userId="${username}" password="${password}">
+        </jdbcConnection>
+
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false"/>
+        </javaTypeResolver>
+
+        <!--生成Model类存放位置-->
+        <javaModelGenerator targetPackage="com.xiaof.repository.model" targetProject="src/main/java">
+            <property name="enableSubPackages" value="true"/>
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+
+        <!--生成映射文件存放位置-->
+        <sqlMapGenerator targetPackage="mapper" targetProject="src/main/resources">
+            <property name="enableSubPackages" value="true"/>
+        </sqlMapGenerator>
+
+        <!--生成Dao类存放位置
+            1，ANNOTATEDMAPPER：会生成使用Mapper接口+Annotation的方式创建（SQL生成在annotation中），不会生成对应的XML；
+            2，XMLMAPPER：会生成Mapper接口，接口完全依赖XML；
+        -->
+        <javaClientGenerator targetPackage="com.xiaof.repository.mapper" targetProject="src/main/java" type="XMLMAPPER">
+            <property name="enableSubPackages" value="true"/>
+        </javaClientGenerator>
+
+
+        <!--生成对应表及类名-->
+        <table tableName="sys_user" domainObjectName="SysUser"
+               enableCountByExample="false"
+               enableUpdateByExample="false"
+               enableDeleteByExample="false"
+               enableSelectByExample="false"
+               selectByExampleQueryId="true">
+        </table>
+
+        <!--Hospital module-->
+        <!--        <table tableName="hospital_statistic" domainObjectName="HospitalStatistic"
+                       enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+                </table>
+                &lt;!&ndash;Order module&ndash;&gt;
+                <table tableName="order" domainObjectName="Order"
+                       enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+                </table>
+                &lt;!&ndash;Product module&ndash;&gt;
+                <table tableName="product" domainObjectName="Product"
+                       enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+                </table>
+                <table tableName="product_buy_log" domainObjectName="ProductBuyLog"
+                       enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+                </table>
+                <table tableName="product_comment" domainObjectName="ProductComment"
+                       enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+                </table>
+                <table tableName="product_edit_log" domainObjectName="ProductEditLog"
+                       enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+                </table>
+                <table tableName="product_statistic" domainObjectName="ProductStatistic"
+                       enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+                </table>
+                &lt;!&ndash;Ops module&ndash;&gt;
+                <table tableName="ops_address" domainObjectName="OpsAddress"
+                       enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+                </table>
+                <table tableName="ops_address_location" domainObjectName="OpsAddressLocation"
+                       enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+                </table>
+                <table tableName="ops_appliance" domainObjectName="OpsAppliance"
+                       enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+                </table>
+                <table tableName="ops_hospital" domainObjectName="OpsHospital"
+                       enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+                </table>
+                <table tableName="ops_hospital_department" domainObjectName="OpsHospitalDepartment"
+                       enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+                </table>
+                <table tableName="ops_hospital_ownership" domainObjectName="OpsHospitalOwnership"
+                       enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+                </table>
+                <table tableName="ops_hospital_type" domainObjectName="OpsHospitalType"
+                       enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+                </table>
+                <table tableName="ops_hospital_level" domainObjectName="OpsHospitalLevel"
+                       enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+                </table>
+                <table tableName="ops_product_price" domainObjectName="OpsProductPrice"
+                       enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+                </table>
+                &lt;!&ndash;Store module&ndash;&gt;
+                <table tableName="store" domainObjectName="Store"
+                       enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+                </table>
+                <table tableName="store_log" domainObjectName="StoreLog"
+                       enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+                </table>
+                <table tableName="store_weixin_member" domainObjectName="StoreWeiXinMember"
+                       enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+                </table>
+
+                <table tableName="store_user_dto" domainObjectName="StoreUserDto"
+                       enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+                </table>
+                &lt;!&ndash;System module&ndash;&gt;
+                <table tableName="sys_menu" domainObjectName="SysMenu"
+                       enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+                </table>
+                <table tableName="sys_mobile_vcode" domainObjectName="SysMobileVCode"
+                       enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+                </table>
+                <table tableName="sys_permission" domainObjectName="SysPermission"
+                       enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+                </table>
+                <table tableName="sys_permission_menu" domainObjectName="SysPermissionMenu"
+                       enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+                </table>
+                <table tableName="sys_permission_store_op" domainObjectName="SysPermissionStoreOp"
+                       enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+                </table>
+                <table tableName="sys_statistic" domainObjectName="SysStatistic"
+                       enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+                </table>
+                AdminUserUser module&ndash;&gt;
+                <table tableName="adminUser" domainObjectName="User"
+                       enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+                </table>
+                <table tableName="user_bind_weixin" domainObjectName="UserBindWeiXin"
+                       enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+                </table>
+                <table tableName="user_dz" domainObjectName="UserDz"
+                       enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+                </table>
+                <table tableName="user_login" domainObjectName="UserLogin"
+                       enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+                </table>
+                <table tableName="user_statistic" domainObjectName="UserStatistic"
+                       enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+                </table>
+                <table tableName="user_test" domainObjectName="UserTest"
+                       enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+                </table>
+                <table tableName="user_withdraw_log" domainObjectName="UserWithdrawLog"
+                       enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+                </table>
+                &lt;!&ndash; Weixin module&ndash;&gt;
+                <table tableName="weixin_user" domainObjectName="WeiXinUser"
+                       enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+                </table>-->
+
+    </context>
+
+</generatorConfiguration>

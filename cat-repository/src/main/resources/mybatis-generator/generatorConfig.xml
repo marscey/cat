@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<!--根节点-->
+<generatorConfiguration>
+    <!--数据库连接配置-->
+    <properties resource="mybatis-generator/generator.properties"/>
+
+    <!-- 必须 指定生成一组对象的环境 通用Mapper方式 -->
+    <context defaultModelType="flat" id="mysql" targetRuntime="MyBatis3Simple">
+        <!-- 生成的Java文件的编码 -->
+        <property name="javaFileEncoding" value="UTF-8"/>
+
+        <!-- 生成根Mapper，用户可以看后边代码 -->
+        <plugin type="tk.mybatis.mapper.generator.MapperPlugin">
+            <property name="mappers" value="com.xiaof.framework.mapper.BaseMapper"/>
+        </plugin>
+
+        <!-- 注释 -->
+        <commentGenerator>
+            <!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+            <property name="suppressAllComments" value="true"/>
+            <property name="suppressDate" value="true"/>
+        </commentGenerator>
+
+
+        <jdbcConnection driverClass="${driverClassName}"
+                        connectionURL="${url}"
+                        userId="${username}" password="${password}">
+        </jdbcConnection>
+
+        <javaModelGenerator targetPackage="com.xiaof.repository.model"
+                            targetProject="src/main/java">
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+
+        <sqlMapGenerator targetPackage="mapper"
+                         targetProject="src/main/resources">
+        </sqlMapGenerator>
+
+        <!--
+            1，ANNOTATEDMAPPER：会生成使用Mapper接口+Annotation的方式创建（SQL生成在annotation中），不会生成对应的XML；
+            2，XMLMAPPER：会生成Mapper接口，接口完全依赖XML；
+        -->
+        <javaClientGenerator type="ANNOTATEDMAPPER"
+                             targetPackage="com.xiaof.repository.mapper"
+                             targetProject="src/main/java">
+        </javaClientGenerator>
+
+        <table schema="" tableName="sys_role" domainObjectName="SysRole">
+            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+        </table>
+    </context>
+
+</generatorConfiguration>
