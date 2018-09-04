@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <packaging>jar</packaging>
-    <artifactId>cat-user</artifactId>
+    <artifactId>cat-common</artifactId>
 
     <parent>
         <artifactId>cat</artifactId>
@@ -13,7 +13,6 @@
     </parent>
 
     <dependencies>
-
         <dependency>
             <groupId>com.xiaof</groupId>
             <artifactId>cat-framework</artifactId>
@@ -23,7 +22,6 @@
             <groupId>com.xiaof</groupId>
             <artifactId>cat-repository</artifactId>
         </dependency>
-
     </dependencies>
 
 </project>

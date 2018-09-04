@@ -27,8 +27,9 @@
     <modules>
         <module>cat-framework</module>
         <module>cat-repository</module>
+        <module>cat-common</module>
         <module>cat-utils</module>
-        <module>cat-user</module>
+        <module>cat-api</module>
     </modules>
 
     <!--版本声明
@@ -44,6 +45,11 @@
             <dependency>
                 <groupId>com.xiaof</groupId>
                 <artifactId>cat-repository</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.xiaof</groupId>
+                <artifactId>cat-common</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -80,11 +86,11 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
-        <!-- aop中去掉logback的依赖,不然会报重复lockbak配置错误-->
-        <dependency>
+        <!-- aop -->
+        <!--<dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
-        </dependency>
+        </dependency>-->
 
         <!-- 阿里数据库连接池 >>>-->
         <!--1.0.28 版本连 oracle 的时候有问题，在报错之后不能正确释放连接，导致报错
@@ -141,15 +147,28 @@
 
         <!--<dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-redis</artifactId>
+            <artifactId>spring-boot-starter-cache</artifactId>
         </dependency>-->
 
+        <!--<dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-ehcache</artifactId>
+        </dependency>-->
+
+        <!-- Redis -->
+        <!-- spring-boot-starter-data-redis 2.x版本以后 Jedis client 替换为 Lettuce client -->
+        <!--<dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-redis</artifactId>
-            <version>1.4.3.RELEASE</version>
+            <version>1.4.7.RELEASE</version>
         </dependency>
 
+
+        <!-- get set 工具 -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
