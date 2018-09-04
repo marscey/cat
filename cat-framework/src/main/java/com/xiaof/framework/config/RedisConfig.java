@@ -83,5 +83,4 @@ public class RedisConfig extends CachingConfigurerSupport {
         redisTemplate.setHashKeySerializer(stringRedisSerializer);
         return redisTemplate;
     }
-
 }

@@ -34,5 +34,5 @@ public interface RoleService {
     /**
      * 删除全部
      */
-    void deleteAll();
+    int deleteAll();
 }

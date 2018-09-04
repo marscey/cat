@@ -3,10 +3,11 @@ package com.xiaof;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import tk.mybatis.spring.annotation.MapperScan;
 
 
 /**
+ * API
+ *
  * @author Chaoyun.Yip
  * 服务启动入口
  */
@@ -21,9 +22,9 @@ import tk.mybatis.spring.annotation.MapperScan;
 //@MapperScan(basePackages = "com.xiaof.repository.mapper")
 //druid service方法监控
 //@ImportResource(locations={"classpath:config/druid-bean.xml"})
-public class UserApplication {
+public class ApiApplication {
 	public static void main(String[] args) {
-		SpringApplication.run(UserApplication.class, args);
+		SpringApplication.run(ApiApplication.class, args);
 		//new SpringApplicationBuilder(UserApplication.class).web(true).run(args);
 	}
 }

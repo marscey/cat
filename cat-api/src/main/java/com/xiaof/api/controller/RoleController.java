@@ -1,4 +1,4 @@
-package com.xiaof.user.controller;
+package com.xiaof.api.controller;
 
 
 import com.xiaof.repository.model.SysRole;
