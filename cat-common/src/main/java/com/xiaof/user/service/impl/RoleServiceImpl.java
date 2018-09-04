@@ -22,7 +22,7 @@ import java.util.List;
  */
 @Slf4j
 @Service
-@CacheConfig(cacheNames = "roleCache")
+//@CacheConfig(cacheNames = "roleCache")
 public class RoleServiceImpl implements RoleService {
 
     @Autowired
@@ -76,7 +76,7 @@ public class RoleServiceImpl implements RoleService {
      *  eq(==), ne(!=), lt()<, le(<=), gt(>), ge(>=)，and(&&), or(||), not(!)
      */
     @Override
-    @Cacheable(key = "#id", unless = "#result eq null")
+    @Cacheable(value = "local", key = "#id", unless = "#result eq null")
     public SysRole findById(long id){
         return roleDao.selectByPrimaryKey(id);
         //return roleDao.selectOneByCache(String.valueOf(id));
