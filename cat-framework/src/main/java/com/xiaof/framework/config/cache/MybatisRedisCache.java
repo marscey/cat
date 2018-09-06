@@ -1,5 +1,6 @@
-package com.xiaof.framework.config;
+package com.xiaof.framework.config.cache;
 
+import com.xiaof.framework.config.ApplicationContextProvider;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.cache.Cache;
 import org.springframework.data.redis.core.RedisCallback;
@@ -15,7 +16,10 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  *
  * @auther Chaoyun.Yip
  * @create 2018/9/3 0003 15:15
+ *
+ * Mybatis缓存，主要用于传统 xml Mapper
  */
+@Deprecated
 @Slf4j
 public class MybatisRedisCache implements Cache {
     //private static final Logger logger = LoggerFactory.getLogger(MybatisRedisCache.class);

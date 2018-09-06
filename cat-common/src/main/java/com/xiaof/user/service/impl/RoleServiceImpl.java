@@ -1,6 +1,6 @@
 package com.xiaof.user.service.impl;
 
-import com.xiaof.framework.utils.RedisUtils;
+import com.xiaof.framework.CacheConstant;
 import com.xiaof.repository.model.SysRole;
 import com.xiaof.user.dao.RoleDao;
 import com.xiaof.user.service.RoleService;
@@ -22,14 +22,11 @@ import java.util.List;
  */
 @Slf4j
 @Service
-//@CacheConfig(cacheNames = "roleCache")
+@CacheConfig(cacheNames = CacheConstant.HOT_HIT_CACHE_NAME)
 public class RoleServiceImpl implements RoleService {
 
     @Autowired
     private RoleDao roleDao;
-
-    @Autowired
-    private RedisUtils redisUtils;
 
     /**
      * 保存
@@ -58,8 +55,6 @@ public class RoleServiceImpl implements RoleService {
         int result = roleDao.updateByPrimaryKeySelective(role);
         //可能只是更新某几个字段而已，所以查次数据库把数据全部拿出来全部
         role = roleDao.selectByPrimaryKey(role.getId());
-        //删除all缓存
-        redisUtils.remove("roleCache::ids");
         return role;
     }
 
@@ -71,25 +66,29 @@ public class RoleServiceImpl implements RoleService {
      * @Cacheable 应用到读取数据的方法上，
      *  先从缓存中读取，如果没有再从DB获取数据，然后把数据添加到缓存中
      *  value 非必填。用于注定缓存数据的储存集合名称，等同于@CacheConfig(cacheNames = "roleCache")中的cacheNames
+     *          当配置多个缓存时，也用于指定哪个缓存 如 Ehcache 中的指定那个 name
      *  key #p0 表示为第一个参数，或者 #id 直接指定id为 key
      *  unless 表示条件表达式成立的话不放入缓存（支持spring el表达式）
      *  eq(==), ne(!=), lt()<, le(<=), gt(>), ge(>=)，and(&&), or(||), not(!)
      */
     @Override
-    @Cacheable(value = "local", key = "#id", unless = "#result eq null")
+    @Cacheable(key = "#p0", unless = "#result eq null")
     public SysRole findById(long id){
         return roleDao.selectByPrimaryKey(id);
         //return roleDao.selectOneByCache(String.valueOf(id));
     }
 
+    /**
+     * cacheManager 指定用那个缓存器
+     *      一般在配置中指定，配置多个缓存器，须@Primary
+     * cacheNames/value 指定缓存组件的名字;将方法的返回结果放在哪个缓存中，是数组的方式，可以指定 多个缓存
+     * @return
+     */
     @Override
+    //@Cacheable(cacheNames = {CacheConstant.REDIS_CACHE_NAME_USER}, cacheManager = "redisCacheManager", unless = "#result eq null")
+    @Cacheable(unless = "#result eq null")
     public List<SysRole> findAll() {
-        List<SysRole> list = (List<SysRole>) redisUtils.get("roleCache::ids");
-        if (list == null) {
-            list = roleDao.selectAll();
-            redisUtils.set("roleCache::ids", list);
-        }
-        return list;
+        return roleDao.selectAll();
     }
 
     /**
@@ -102,8 +101,6 @@ public class RoleServiceImpl implements RoleService {
     @CacheEvict(key = "#p0", condition = "#result eq true")
     public boolean deleteById(long id){
         int result = roleDao.deleteByPrimaryKey(id);
-        //删除all缓存
-        redisUtils.remove("roleCache::ids");
         return result > 0 ? true : false;
     }
 
@@ -117,8 +114,6 @@ public class RoleServiceImpl implements RoleService {
     @CacheEvict(allEntries = true, condition = "#result gt 0")
     public int deleteAll(){
         int result = roleDao.getMapper().deleteAll();
-        //删除all缓存
-        redisUtils.remove("roleCache::ids");
         return result;
     }
 }
