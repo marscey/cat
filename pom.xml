@@ -145,13 +145,13 @@
             <version>2.0.2</version>
         </dependency>
 
-        <!-- 添加对缓存的支持 -->
+        <!-- spring-cache -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-cache</artifactId>
         </dependency>
 
-        <!-- ehcache -->
+        <!-- Ehcache -->
         <dependency>
             <groupId>net.sf.ehcache</groupId>
             <artifactId>ehcache</artifactId>
@@ -160,16 +160,25 @@
 
         <!-- Redis -->
         <!-- spring-boot-starter-data-redis 2.x版本以后 Jedis client 替换为 Lettuce client -->
-        <!--<dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
-        </dependency>-->
+        </dependency>
         <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+        </dependency>
+        <!-- 将作为Redis对象序列化器 -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.47</version>
+        </dependency>
+        <!--<dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-redis</artifactId>
             <version>1.4.7.RELEASE</version>
-        </dependency>
-
+        </dependency>-->
 
         <!-- get set 工具 -->
         <dependency>

@@ -1,6 +1,6 @@
 package com.xiaof.framework.utils;
 
-import com.xiaof.framework.config.RedisConfig;
+import com.xiaof.framework.config.cache.CacheConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.dao.DataAccessException;
@@ -35,7 +35,7 @@ public class RedisUtils {
     RedisUtils(RedisTemplate<String, Object> redisTemplate){
         this.redisTemplate = redisTemplate;
         //是否开启缓存
-        EnableCaching enableCaching = RedisConfig.class.getAnnotation(EnableCaching.class);
+        EnableCaching enableCaching = CacheConfig.class.getAnnotation(EnableCaching.class);
         if(enableCaching != null){
             this.isCache = true;
         }
